@@ -1,0 +1,24 @@
+---
+apiVersion: kubeless.io/v1beta1
+kind: Function
+metadata:
+  name: hello3
+spec:
+  handler: handler.foobar
+  runtime: nodejs8
+  deps: |
+      {
+          "name": "foobar",
+          "version": "0.0.1",
+          "dependencies": {
+              "child_process": "^1.0.2",
+              "end-of-stream": "^1.4.1"
+          }
+      }      
+  function: |
+      module.exports = {
+        foobar: function (event, context) {
+          var result = require('child_process').execSync('echo ' + JSON.stringify(event.data) + ' | perl -0777 -pe \'s/^.*:(.*)}$/\\1/s\'').toString();
+          return(result);
+        }
+      }
