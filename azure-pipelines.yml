@@ -8,6 +8,8 @@ trigger:
 
 variables:
 - group: kconfig
+- name: my-passed-variable
+  value: $[variables.configp3b64] # uses runtime expression
 
 pool:
   vmImage: 'ubuntu-latest'
@@ -29,17 +31,19 @@ steps:
       
       export
       
-      echo $(config-p3.b64) > t1.o
+      echo $(configp3b64) > t1.o
       echo $something > t2.o
-      echo $(something) > t3.0
+      echo $(something) > t3.o
+      echo $(my-passed-variable) > t4.o
 
       cat t1.o | base64
       cat t2.o | base64
       cat t3.o | base64
+      cat t4.o | base64
       
   displayName: 'testing'
   env:
-    something: $(config-p3.b64)
+    something: $(configp3b64)
 
 - script: |
     echo $(kconfig-p1.b64) > kconfig.b64
