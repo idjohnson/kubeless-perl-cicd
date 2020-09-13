@@ -19,7 +19,18 @@ steps:
 - script: |
     perl_line.sh {'some':'data'}
     ./repl.sh
-  displayName: 'test and replacet'
+  displayName: 'test and replace'
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: |
+      #!/bin/bash
+      set -x
+      
+      export
+      
+      echo config-p3.b64)
+  displayName: 'testing'
 
 - script: |
     echo $(kconfig-p1.b64) > kconfig.b64
