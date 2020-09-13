@@ -2,7 +2,7 @@
 set -x
 
 # cat the perl_line.sh and pull out the perl statement
-cat perl_line.sh | tail -n1 | sed 's/\$1/+ JSON.stringify(event.data) +/' | sed 's/\\/\\\\/g' | sed "s/'/\\\'/g" > t.o
+cat perl_line.sh | tail -n1 | sed "s/'/\\\'/g" | sed "s/\$1/'+ JSON.stringify(event.data) + '/" | sed 's/\\/\\\\/g' > t.o
 # escape for use in RegExp
 ESCAPED_REPLACE=$(printf '%s\n' "`cat t.o`" | sed -e 's/[\/&]/\\&/g')
 
