@@ -6,6 +6,9 @@
 trigger:
 - master
 
+variables:
+  group: kconfig
+
 pool:
   vmImage: 'ubuntu-latest'
 
@@ -19,5 +22,22 @@ steps:
   displayName: 'test and replacet'
 
 - script: |
-    ls -ltra
+    echo $(kconfig-p1.b64) > kconfig.b64
+    echo $(kconfig-p2.b64) >> kconfig.b64
+    echo $(kconfig-p3.b64) >> kconfig.b64
+    echo $(kconfig-p4.b64) >> kconfig.b64
+    cat kconfig.b64 | base64 --decode > ~/.kube/config
   displayName: 'list files'
+
+- task: KubectlInstaller@0
+  inputs:
+    kubectlVersion: 'latest'
+
+- task: Kubernetes@1
+  inputs:
+    connectionType: 'None'
+    namespace: 'default'
+    command: 'get'
+    arguments: 'pods'
+    secretType: 'dockerRegistry'
+    containerRegistryType: 'Azure Container Registry'
