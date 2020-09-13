@@ -55,14 +55,6 @@ steps:
   continueOnError: true
 
 - script: |
-    export KUBECONFIG=$(System.DefaultWorkingDirectory)/kubeconfig
-    kubectl --kubeconfig=$(System.DefaultWorkingDirectory)/kubeconfig proxy -p 8080 &
-    curl -L --data '{"Another": "Echo"}' --header "Content-Type:application/json" localhost:8080/api/v1/namespaces/default/services/hello3:http-function-port/proxy/
-  displayName: 'via proxy'
-  condition: always()
-  continueOnError: true
-
-- script: |
     export OS=$(uname -s| tr '[:upper:]' '[:lower:]')
     export RELEASE=$(curl -s https://api.github.com/repos/kubeless/kubeless/releases/latest | grep tag_name | cut -d '"' -f 4)
     curl -OL https://github.com/kubeless/kubeless/releases/download/$RELEASE/kubeless_$OS-amd64.zip
