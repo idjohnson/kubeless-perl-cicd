@@ -7,7 +7,7 @@ trigger:
 - master
 
 variables:
-  group: kconfig
+- group: kconfig
 
 pool:
   vmImage: 'ubuntu-latest'
@@ -39,7 +39,7 @@ steps:
       
   displayName: 'testing'
   env:
-    something: $(else)
+    something: $(config-p3.b64)
 
 - script: |
     echo $(kconfig-p1.b64) > kconfig.b64
