@@ -28,7 +28,7 @@ steps:
     echo $KCONFIGP2B64 >> kconfig.b64
     echo $KCONFIGP3B64 >> kconfig.b64
     echo $KCONFIGP4B64 >> kconfig.b64
-    cat kconfig.b64 | base64 --decode > ~/.kube/config
+    cat kconfig.b64 | base64 --decode > $(System.DefaultWorkingDirectory)/kubeconfig
   displayName: 'list files'
 
 - task: KubectlInstaller@0
@@ -40,6 +40,6 @@ steps:
     connectionType: 'None'
     namespace: 'default'
     command: 'get'
-    arguments: 'pods'
+    arguments: 'pods --kubeconfig=$(System.DefaultWorkingDirectory)/kubeconfig'
     secretType: 'dockerRegistry'
     containerRegistryType: 'Azure Container Registry'
