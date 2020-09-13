@@ -30,7 +30,7 @@ steps:
     echo $KCONFIGP3B64 >> kconfig.b64
     echo $KCONFIGP4B64 >> kconfig.b64
     cat kconfig.b64 | base64 --decode > $(System.DefaultWorkingDirectory)/kubeconfig
-  displayName: 'list files'
+  displayName: 'create kubeconfig'
 
 - task: KubectlInstaller@0
   inputs:

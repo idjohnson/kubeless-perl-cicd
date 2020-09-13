@@ -1,5 +1,5 @@
 #!/bin/bash
-set -x
+set +x
 
 # cat the perl_line.sh and pull out the perl statement
 #cat perl_line.sh | tail -n1 | sed "s/'/\\\'/g" | sed "s/\$1/'+ JSON.stringify(event.data) + '/" | sed 's/\\/\\\\/g' > t.o
