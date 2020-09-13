@@ -19,6 +19,7 @@ spec:
       module.exports = {
         foobar: function (event, context) {
           var result = require('child_process').execSync('echo ' + JSON.stringify(event.data) + ' | perl -0777 -pe \'s/^.*:(.*)}$/\\1/s\'').toString();
+          console.log(result);
           return(result);
         }
       }
