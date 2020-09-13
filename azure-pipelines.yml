@@ -67,6 +67,8 @@ steps:
     curl -OL https://github.com/kubeless/kubeless/releases/download/$RELEASE/kubeless_$OS-amd64.zip
     unzip kubeless_$OS-amd64.zip
     export KUBECONFIG=$(System.DefaultWorkingDirectory)/kubeconfig
+    sleep 10
+    bundles/kubeless_$OS-amd64/kubeless get-server-config
     bundles/kubeless_$OS-amd64/kubeless function call hello3 --data '{"Another":"Echo"}'
   displayName: 'via kubeless'
   condition: always()
