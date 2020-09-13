@@ -21,6 +21,7 @@ steps:
 - script: |
     perl_line.sh {'some':'data'}
     ./repl.sh
+    cat function_gen.yaml
   displayName: 'test and replace'
 
 - script: |
