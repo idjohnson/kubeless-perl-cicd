@@ -45,6 +45,32 @@ steps:
     containerRegistryType: 'Azure Container Registry'
     outputFormat: 'none'
 
-- script: |
-    kubectl get pods --kubeconfig=$(System.DefaultWorkingDirectory)/kubeconfig
+- script: kubectl get pods --kubeconfig=$(System.DefaultWorkingDirectory)/kubeconfig
   displayName: 'via cli'
+
+- script: kubectl apply -f function_gen.yaml --kubeconfig=$(System.DefaultWorkingDirectory)/kubeconfig
+  displayName: 'update'
+
+
+- script: kubectl apply -f function_gen.yaml --kubeconfig=$(System.DefaultWorkingDirectory)/kubeconfig
+  displayName: 'update'
+  condition: always()
+  continueOnError: true
+
+- script: |
+    kubectl proxy -p 8080 --kubeconfig=$(System.DefaultWorkingDirectory)/kubeconfig &
+    curl -L --data '{"Another": "Echo"}' --header "Content-Type:application/json" localhost:8080/api/v1/namespaces/default/services/hello3:http-function-port/proxy/
+  displayName: 'via proxy'
+  condition: always()
+  continueOnError: true
+
+- script: |
+    export OS=$(uname -s| tr '[:upper:]' '[:lower:]')
+    curl -OL https://github.com/kubeless/kubeless/releases/download/$RELEASE/kubeless_$OS-amd64.zip
+    unzip kubeless_$OS-amd64.zip
+    export KUBECONFIG=$(System.DefaultWorkingDirectory)/kubeconfig
+    bundles/kubeless_$OS-amd64/kubeless function call hello3 --data '{"Another":"Echo"}'
+  displayName: 'via proxy'
+  condition: always()
+  continueOnError: true
+
