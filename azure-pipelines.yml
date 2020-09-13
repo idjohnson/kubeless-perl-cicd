@@ -43,3 +43,8 @@ steps:
     arguments: 'pods --kubeconfig=$(System.DefaultWorkingDirectory)/kubeconfig'
     secretType: 'dockerRegistry'
     containerRegistryType: 'Azure Container Registry'
+    outputFormat: 'none'
+
+- script: |
+    kubectl get pods --kubeconfig=$(System.DefaultWorkingDirectory)/kubeconfig
+  displayName: 'via cli'
